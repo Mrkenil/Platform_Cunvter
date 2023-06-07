@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
+import '../../../modals/contect_modal.dart';
 import '../../../provider/global_provider.dart';
+import '../../../utils/countroler.dart';
 
 class add_contect_android extends StatefulWidget {
   const add_contect_android({super.key});
@@ -14,10 +16,6 @@ class add_contect_android extends StatefulWidget {
 }
 
 class _add_contect_androidState extends State<add_contect_android> {
-  final GlobalKey<FormState> contactFormKey = GlobalKey<FormState>();
-  TextEditingController namecontroller = TextEditingController();
-  TextEditingController numbercontroller = TextEditingController();
-  TextEditingController chatcontroller = TextEditingController();
   ImagePicker picker = ImagePicker();
   XFile? image;
   @override
@@ -57,6 +55,11 @@ class _add_contect_androidState extends State<add_contect_android> {
                         border: OutlineInputBorder(),
                         hintText: "Full name",
                         label: Icon(Icons.person)),
+                    validator: (val) {
+                      if (val == null) {
+                        Text("pless enter a name");
+                      }
+                    },
                   ),
                   SizedBox(
                     height: 10,
@@ -67,6 +70,11 @@ class _add_contect_androidState extends State<add_contect_android> {
                         border: OutlineInputBorder(),
                         hintText: "Number",
                         label: Icon(Icons.call)),
+                    validator: (val) {
+                      if (val != 10) {
+                        Text("Enter valed phone number.......");
+                      }
+                    },
                   ),
                   SizedBox(
                     height: 10,
@@ -77,6 +85,11 @@ class _add_contect_androidState extends State<add_contect_android> {
                         border: OutlineInputBorder(),
                         hintText: "chat",
                         label: Icon(Icons.chat)),
+                    validator: (val) {
+                      if (val == null) {
+                        Text("pliss enter chat");
+                      }
+                    },
                   ),
                   Row(
                     children: [
@@ -122,7 +135,25 @@ class _add_contect_androidState extends State<add_contect_android> {
                     ],
                   ),
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      if (contactFormKey.currentState!.validate()) {
+                        cuntect Contect = cuntect(
+                            image:
+                                Provider.of<global_pro>(context, listen: false)
+                                    .imag!,
+                            name: namecontroller.text,
+                            number: numbercontroller.text,
+                            chat: chatcontroller.text,
+                            date:
+                                Provider.of<global_pro>(context, listen: false)
+                                    .inDate!,
+                            time:
+                                Provider.of<global_pro>(context, listen: false)
+                                    .Time);
+                        Provider.of<global_pro>(context, listen: false)
+                            .add_contect(Contect);
+                      }
+                    },
                     child: Text("save"),
                   ),
                 ],

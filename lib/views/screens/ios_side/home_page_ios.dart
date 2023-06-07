@@ -1,57 +1,42 @@
-import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:provider/provider.dart';
+import 'package:platform_cunvter/views/screens/ios_side/add_contect_page_ios.dart';
+import 'package:platform_cunvter/views/screens/ios_side/call_page_ios.dart';
+import 'package:platform_cunvter/views/screens/ios_side/chat_page_ios.dart';
+import 'package:platform_cunvter/views/screens/ios_side/setting_page_ios.dart';
 
-import '../../../provider/global_provider.dart';
-
-class app extends StatefulWidget {
-  const app({Key? key}) : super(key: key);
+class IosPlatform extends StatefulWidget {
+  const IosPlatform({Key? key}) : super(key: key);
 
   @override
-  State<app> createState() => _appState();
+  State<IosPlatform> createState() => _IosPlatformState();
 }
 
-class _appState extends State<app> {
-  ImagePicker picker = ImagePicker();
-  XFile? image;
+class _IosPlatformState extends State<IosPlatform> {
+  List<Widget> pages = [
+    add_contect_ios(),
+    chat_page_ios(),
+    call_page_ios(),
+    setting_page_ios(),
+  ];
   @override
   Widget build(BuildContext context) {
-    return CupertinoPageScaffold(
-      navigationBar: CupertinoNavigationBar(
-        middle: Text("Image_picer"),
-        trailing: CupertinoSwitch(
-          value: Provider.of<global_pro>(context, listen: false).isIos,
-          onChanged: (val) {
-            Provider.of<global_pro>(context, listen: false)
-                .plyform_cunvert(val);
-          },
-        ),
+    return CupertinoTabScaffold(
+      tabBar: CupertinoTabBar(
+        items: [
+          BottomNavigationBarItem(
+              icon: Icon(CupertinoIcons.person), label: "Person"),
+          BottomNavigationBarItem(
+              icon: Icon(CupertinoIcons.chat_bubble_text), label: "Chat"),
+          BottomNavigationBarItem(
+              icon: Icon(CupertinoIcons.phone), label: "Calls"),
+          BottomNavigationBarItem(
+              icon: Icon(CupertinoIcons.settings), label: "Settings"),
+        ],
       ),
-      child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            CircleAvatar(
-              radius: 150,
-              foregroundImage:
-                  (Provider.of<global_pro>(context, listen: false).imag != null)
-                      ? FileImage(
-                          Provider.of<global_pro>(context, listen: true).imag!)
-                      : null,
-            ),
-            ElevatedButton(
-                onPressed: () async {
-                  image = await picker.pickImage(source: ImageSource.camera)
-                      as XFile;
-                  Provider.of<global_pro>(context, listen: false)
-                      .image_piker(File(image!.path));
-                },
-                child: Icon(Icons.add)),
-          ],
-        ),
+      tabBuilder: (context, index) => CupertinoTabView(
+        builder: (BuildContext context) {
+          return pages[index];
+        },
       ),
     );
   }

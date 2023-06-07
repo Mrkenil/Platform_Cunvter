@@ -61,11 +61,6 @@ class _setting_page_androidState extends State<setting_page_android> {
                                             listen: false)
                                         .image_piker(File(image!.path));
                                   },
-                                  child: Container(
-                                    height: 40,
-                                    width: 40,
-                                    color: Colors.grey.withOpacity(0),
-                                  ),
                                 )
                               : GestureDetector(
                                   onTap: () async {

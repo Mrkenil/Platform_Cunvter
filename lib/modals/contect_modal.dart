@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 class cuntect {
   final File image;
   final String name;
-  final int number;
+  final String number;
   final String chat;
   final DateTime date;
   final TimeOfDay time;

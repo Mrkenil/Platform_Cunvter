@@ -15,7 +15,7 @@ void main() {
           (Provider.of<global_pro>(context, listen: true).isIos)
               ? CupertinoApp(
                   debugShowCheckedModeBanner: false,
-                  home: app(),
+                  home: IosPlatform(),
                 )
               : MaterialApp(
                   debugShowCheckedModeBanner: false,
